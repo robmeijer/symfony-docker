@@ -14,5 +14,6 @@ blocks:
           commands:
             - checkout
             - cache restore
+            - phpbrew ext install iconv
             - composer install --no-interaction --classmap-authoritative
             - cache store
