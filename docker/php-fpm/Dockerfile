@@ -10,7 +10,7 @@ RUN apk update && \
 
 ## Install php extensions
 RUN pecl install xdebug && \
-    docker-php-ext-enable xdebug && \
+    docker-php-ext-enable opcache xdebug && \
     docker-php-ext-install pdo_mysql zip
 
 ## Copy php default configuration
