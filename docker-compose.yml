@@ -5,10 +5,10 @@ services:
         build:
             context: .
             cache_from:
-                - robmeijer/symfony-docker-nginx
+                - robmeijer/symfony-docker-nginx:latest
             dockerfile: ./docker/nginx/Dockerfile
             target: dev
-        image: robmeijer/symfony-docker-nginx
+        image: robmeijer/symfony-docker-nginx:latest
         volumes:
             - ./assets:/app/public
         depends_on:
@@ -19,10 +19,10 @@ services:
         build:
             context: .
             cache_from:
-                - robmeijer/symfony-docker-php-fpm
+                - robmeijer/symfony-docker-php-fpm:latest
             dockerfile: ./docker/php-fpm/Dockerfile
             target: dev
-        image: robmeijer/symfony-docker-php-fpm
+        image: robmeijer/symfony-docker-php-fpm:latest
         volumes:
             - .:/app
         command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm'

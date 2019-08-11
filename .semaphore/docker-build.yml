@@ -15,8 +15,7 @@ blocks:
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - checkout
             - docker pull robmeijer/symfony-docker-php-fpm:latest || true
-            - docker-compose build php-fpm
-            - docker tag robmeijer/symfony-docker-php-fpm:latest robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID
+            - docker build --cache-from robmeijer/symfony-docker-php-fpm:latest -f docker/php-fpm/Dockerfile -t robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID .
             - docker images
             - docker push robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID
         - name: "Nginx"
@@ -24,8 +23,7 @@ blocks:
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - checkout
             - docker pull robmeijer/symfony-docker-nginx:latest || true
-            - docker-compose build nginx
-            - docker tag robmeijer/symfony-docker-nginx:latest robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
+            - docker build --cache-from robmeijer/symfony-docker-nginx:latest -f docker/nginx/Dockerfile -t robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID .
             - docker images
             - docker push robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
 promotions:
