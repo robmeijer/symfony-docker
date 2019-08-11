@@ -13,7 +13,12 @@ blocks:
         - name: "Composer"
           commands:
             - checkout
-            - cache restore
             - phpbrew ext install iconv
+            - cache restore
             - composer install --no-interaction --classmap-authoritative
             - cache store
+promotions:
+    - name: "Dockerize"
+      pipeline_file: docker-build.yml
+      auto_promote_on:
+          - result: passed

@@ -1,0 +1,28 @@
+version: v1.0
+name: "Docker build"
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: "Build"
+    task:
+      secrets:
+        - name: my-dockerhub
+      jobs:
+        - name: "Php-fpm"
+          commands:
+            - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            - checkout
+            - docker pull robmeijer/symfony-docker-php-fpm:latest || true
+            - docker build --cache-from robmeijer/symfony-docker-php-fpm:latest -t robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID ./docker/php-fpm
+            - docker images
+            - docker push robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID
+        - name: "Nginx"
+          commands:
+            - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            - checkout
+            - docker pull robmeijer/symfony-docker-nginx:latest || true
+            - docker build --cache-from robmeijer/symfony-docker-nginx:latest -t robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID ./docker/nginx
+            - docker images
+            - docker push robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
