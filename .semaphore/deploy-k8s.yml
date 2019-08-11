@@ -1,0 +1,24 @@
+version: v1.0
+name: "Deploy to Kubernetes"
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: "Tag latest release"
+    task:
+      secrets:
+        - name: my-dockerhub
+      jobs:
+        - name: "Php-fpm"
+          commands:
+            - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            - docker pull robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID
+            - docker tag robmeijer/symfony-docker-php-fpm:$SEMAPHORE_WORKFLOW_ID robmeijer/symfony-docker-php-fpm:latest
+            - docker push robmeijer/symfony-docker-php-fpm:latest
+        - name: "Nginx"
+          commands:
+            - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            - docker pull robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
+            - docker tag robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID robmeijer/symfony-docker-nginx:latest
+            - docker push robmeijer/symfony-docker-nginx:latest

@@ -28,3 +28,6 @@ blocks:
             - docker tag robmeijer/symfony-docker-nginx:latest robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
             - docker images
             - docker push robmeijer/symfony-docker-nginx:$SEMAPHORE_WORKFLOW_ID
+promotions:
+  - name: "Deploy to Kubernetes"
+    pipeline_file: deploy-k8s.yml
