@@ -9,8 +9,6 @@ services:
             dockerfile: ./docker/nginx/Dockerfile
             target: dev
         image: robmeijer/symfony-docker-nginx:latest
-        volumes:
-            - ./assets:/app/public
         depends_on:
             - php-fpm
         ports:

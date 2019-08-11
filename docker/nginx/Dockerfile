@@ -1,5 +1,3 @@
-ARG VERSION
-
 # Dev image
 FROM nginx:1.17-alpine as dev
 
@@ -8,6 +6,3 @@ COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Prod image
 FROM dev as prod
-
-# Copy assets
-COPY ./assets /app/public
