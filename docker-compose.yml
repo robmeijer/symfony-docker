@@ -4,6 +4,8 @@ services:
     nginx:
         build:
             context: .
+            cache_from:
+                - robmeijer/symfony-docker-nginx
             dockerfile: ./docker/nginx/Dockerfile
             target: dev
         image: robmeijer/symfony-docker-nginx
@@ -16,6 +18,8 @@ services:
     php-fpm:
         build:
             context: .
+            cache_from:
+                - robmeijer/symfony-docker-php-fpm
             dockerfile: ./docker/php-fpm/Dockerfile
             target: dev
         image: robmeijer/symfony-docker-php-fpm
