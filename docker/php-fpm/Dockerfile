@@ -45,9 +45,6 @@ FROM test AS prod
 ENV APP_ENV=prod
 WORKDIR /app
 
-## Remove dev dependencies
-RUN composer install --no-dev --no-interaction --classmap-authoritative
-
 ## Disable xdebug on production
 RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
