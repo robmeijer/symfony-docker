@@ -6,6 +6,7 @@ services:
             context: .
             dockerfile: ./docker/nginx/Dockerfile
             target: dev
+        image: robmeijer/symfony-docker-nginx
         volumes:
             - ./assets:/app/public
         depends_on:
@@ -17,6 +18,7 @@ services:
             context: .
             dockerfile: ./docker/php-fpm/Dockerfile
             target: dev
+        image: robmeijer/symfony-docker-php-fpm
         volumes:
             - .:/app
         command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm'
