@@ -14,9 +14,10 @@ phases:
         commands:
             - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             - docker pull robmeijer/symfony-docker-php-fpm:latest || true
-            - docker build --cache-from robmeijer/symfony-docker-php-fpm:latest -f docker/php-fpm/Dockerfile -t robmeijer/symfony-docker-php-fpm:"${CODEBUILD_BUILD_ID}" .
-            - docker push robmeijer/symfony-docker-php-fpm:"${CODEBUILD_BUILD_ID}"
+            - echo "${CODEBUILD_BUILD_ID}"
+            - docker build --cache-from robmeijer/symfony-docker-php-fpm:latest -f docker/php-fpm/Dockerfile -t robmeijer/symfony-docker-php-fpm:aws-test .
+            - docker push robmeijer/symfony-docker-php-fpm:aws-test
             - docker pull robmeijer/symfony-docker-nginx:latest || true
-            - docker build --cache-from robmeijer/symfony-docker-nginx:latest -f docker/nginx/Dockerfile -t robmeijer/symfony-docker-nginx:"${CODEBUILD_BUILD_ID}" .
+            - docker build --cache-from robmeijer/symfony-docker-nginx:latest -f docker/nginx/Dockerfile -t robmeijer/symfony-docker-nginx:aws-test .
             - docker images
-            - docker push robmeijer/symfony-docker-nginx:"${CODEBUILD_BUILD_ID}"
+            - docker push robmeijer/symfony-docker-nginx:aws-test
