@@ -16,8 +16,10 @@ phases:
             - docker pull robmeijer/symfony-docker-php-fpm:latest || true
             - echo "${CODEBUILD_BUILD_ID}"
             - docker build --cache-from robmeijer/symfony-docker-php-fpm:latest -f docker/php-fpm/Dockerfile -t robmeijer/symfony-docker-php-fpm:aws-test .
-            - docker push robmeijer/symfony-docker-php-fpm:aws-test
             - docker pull robmeijer/symfony-docker-nginx:latest || true
             - docker build --cache-from robmeijer/symfony-docker-nginx:latest -f docker/nginx/Dockerfile -t robmeijer/symfony-docker-nginx:aws-test .
+    post_build:
+        commands:
             - docker images
+            - docker push robmeijer/symfony-docker-php-fpm:aws-test
             - docker push robmeijer/symfony-docker-nginx:aws-test
